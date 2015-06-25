@@ -1,14 +1,11 @@
 <?php
  	require_once("Rest.inc.php");
-	
+	require_once("../api/db.php");
+
 	class API extends REST {
 	
 		public $data = "";
 		
-		const DB_SERVER = "127.0.0.1";
-		const DB_USER = "root";
-		const DB_PASSWORD = "";
-		const DB = "test";
 
 		private $db = NULL;
 		private $mysqli = NULL;
@@ -21,7 +18,7 @@
 		 *  Connect to Database
 		*/
 		private function dbConnect(){
-			$this->mysqli = new mysqli(self::DB_SERVER, self::DB_USER, self::DB_PASSWORD, self::DB);
+			$this->mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB);
 		}
 		
 		/*
@@ -97,7 +94,7 @@
 			}
 
 			$categorie = json_decode(file_get_contents("php://input"),true);
-			$column_names = array('libelle');
+			$column_names = array('categorie_libelle');
 			$keys = array_keys($categorie);
 			$columns = '';
 			$values = '';
@@ -118,13 +115,14 @@
 			}else
 				$this->response('',204);	//"No Content" status
 		}
+		
 		private function updateCategorie(){
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
 			$categorie = json_decode(file_get_contents("php://input"),true);
 			$id = (int)$categorie['id'];
-			$column_names = array('libelle');
+			$column_names = array('categorie_libelle');
 			$keys = array_keys($categorie['categorie']);
 			$columns = '';
 			$values = '';
