@@ -32,7 +32,7 @@
 				$this->response('',404); // If the method not exist with in this class "Page not found".
 		}
 				
-		/*private function login(){
+		private function login(){
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
@@ -40,7 +40,8 @@
 			$password = $this->_request['pwd'];
 			if(!empty($email) and !empty($password)){
 				if(filter_var($email, FILTER_VALIDATE_EMAIL)){
-					$query="SELECT uid, name, email FROM users WHERE email = '$email' AND password = '".md5($password)."' LIMIT 1";
+					//$query="SELECT user_id, user_email, user_password FROM users WHERE user_email = '$email' AND user_password = '".md5($password)."' LIMIT 1";
+					$query="SELECT user_id, user_email, user_password FROM users WHERE user_email = '$email' AND user_password = '".$password."' LIMIT 1";
 					$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
 					if($r->num_rows > 0) {
@@ -54,13 +55,13 @@
 			
 			$error = array('status' => "Failed", "msg" => "Invalid Email address or Password");
 			$this->response($this->json($error), 400);
-		}*/
+		}
 		
-		private function categories(){	
+		private function categories() {	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
 			}
-			$query="SELECT distinct c.categorie_id, c.categorie_libelle FROM reading_challenge_categorie c";
+			$query="SELECT distinct c.categorie_id, c.categorie_label FROM reading_challenge_categorie c";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
 			if($r->num_rows > 0){
@@ -70,15 +71,17 @@
 				}
 				$this->response($this->json($result), 200); // send user details
 			}
-			$this->response('',204);	// If no records "No Content" status
+			// If no records "No Content" status
+			$this->response('',204);	
 		}
+
 		private function categorie(){	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
 			}
 			$id = (int)$this->_request['id'];
 			if($id > 0){	
-				$query="SELECT distinct c.categorie_id, c.categorie_libelle FROM reading_challenge_categorie c where c.categorie_id=$id";
+				$query="SELECT distinct c.categorie_id, c.categorie_label FROM reading_challenge_categorie c where c.categorie_id=$id";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
 					$result = $r->fetch_assoc();	
@@ -94,7 +97,7 @@
 			}
 
 			$categorie = json_decode(file_get_contents("php://input"),true);
-			$column_names = array('categorie_libelle');
+			$column_names = array('categorie_label');
 			$keys = array_keys($categorie);
 			$columns = '';
 			$values = '';
@@ -122,7 +125,7 @@
 			}
 			$categorie = json_decode(file_get_contents("php://input"),true);
 			$id = (int)$categorie['id'];
-			$column_names = array('categorie_libelle');
+			$column_names = array('categorie_label');
 			$keys = array_keys($categorie['categorie']);
 			$columns = '';
 			$values = '';
