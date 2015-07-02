@@ -1,5 +1,5 @@
 <?php
-    include('login/session.php');
+    include('session.php');
 ?>
 <!DOCTYPE html>
 <html ng-app="myApp" ng-app lang="en">
@@ -26,7 +26,7 @@
                         Welcome <i><?php echo $login_session; ?></i>
                     </small>
                 </a>
-                <a href="login/logout.php" class="navbar-brand">
+                <a href="logout.php" class="navbar-brand">
                     <small>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <i class="glyphicon glyphicon-log-out"></i>
