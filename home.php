@@ -1,3 +1,6 @@
+<?php
+    include('login/session.php');
+?>
 <!DOCTYPE html>
 <html ng-app="myApp" ng-app lang="en">
     <head>
@@ -14,8 +17,20 @@
             <div class="navbar-header">
                 <a href="http://pierrefourreau.fr" class="navbar-brand">
                     <small>
-                        <i class="glyphicon glyphicon-log-out"></i>
                         Reading Challenge administration by Pierre Fourreau
+                    </small>
+                </a>
+                <a href="#" class="navbar-brand">
+                    <small>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        Welcome <i><?php echo $login_session; ?></i>
+                    </small>
+                </a>
+                <a href="login/logout.php" class="navbar-brand">
+                    <small>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i class="glyphicon glyphicon-log-out"></i>
+                        Log Out
                     </small>
                 </a>
             </div>
@@ -27,7 +42,7 @@
                 <br/>
                 <blockquote>
                     <h4>
-                        <a href="http://angularcode.com/demo-of-a-simple-crud-restful-php-service-used-with-angularjs-and-mysql/">Administration of the reading challenge data</a>
+                        Administration of the reading challenge data
                     </h4>
                 </blockquote>
                 <br/>
