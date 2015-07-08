@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
         $username   = stripslashes($username);
         $password   = stripslashes($password);
 
-        $stmt = $connexion->prepare("select * from login where password=? AND username=?");
+        $stmt = $connexion->prepare("select * from reading_challenge_login where password=? AND username=?");
         $stmt->execute(array($password, $username));
 		$rows = $stmt->rowCount();
 

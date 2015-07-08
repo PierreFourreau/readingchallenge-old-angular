@@ -9,11 +9,13 @@
         <table class="table table-striped table-bordered">
         <thead>
         <th>Categorie label&nbsp;</th>
+        <th>Categorie image path&nbsp;</th>
         <th>Actions&nbsp;</th>
         </thead>
         <tbody>
             <tr ng-repeat="data in categories">
                 <td>{{data.categorie_label}}</td>
+                <td>{{data.categorie_image_path}}</td>
                 <td><a href="#/edit-categorie/{{data.categorie_id}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Edit</a></td>
             </tr>
         </tbody>

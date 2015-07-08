@@ -32,7 +32,7 @@
 				$this->response('',404); // If the method not exist with in this class "Page not found".
 		}
 				
-		private function login(){
+		/*private function login(){
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
@@ -55,13 +55,13 @@
 			
 			$error = array('status' => "Failed", "msg" => "Invalid Email address or Password");
 			$this->response($this->json($error), 400);
-		}
+		}*/
 		
 		private function categories() {	
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
 			}
-			$query="SELECT distinct c.categorie_id, c.categorie_label FROM reading_challenge_categorie c";
+			$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_image_path FROM reading_challenge_categorie c";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
 			if($r->num_rows > 0){
@@ -81,7 +81,7 @@
 			}
 			$id = (int)$this->_request['id'];
 			if($id > 0){	
-				$query="SELECT distinct c.categorie_id, c.categorie_label FROM reading_challenge_categorie c where c.categorie_id=$id";
+				$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_image_path FROM reading_challenge_categorie c where c.categorie_id=$id";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
 					$result = $r->fetch_assoc();	
@@ -97,7 +97,7 @@
 			}
 
 			$categorie = json_decode(file_get_contents("php://input"),true);
-			$column_names = array('categorie_label');
+			$column_names = array('categorie_label', 'categorie_image_path');
 			$keys = array_keys($categorie);
 			$columns = '';
 			$values = '';
