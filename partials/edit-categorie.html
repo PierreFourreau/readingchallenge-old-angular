@@ -1,4 +1,4 @@
-﻿<style type="text/css">
+<style type="text/css">
   .form-horizontal input.ng-invalid.ng-dirty {
     border-color: #FA787E;
   }
@@ -22,7 +22,7 @@
         </header>
         <div class="col-md-12">
 
-<form role="form" name="myForm" class="form-horizontal">
+<form role="form" name="myForm" class="form-horizontal" accept-charset="UTF-8">
 <div class="row">
 <div class= "form-group" ng-class="{error: myForm.name.$invalid}">
     <label class= "col-md-2"> Label EN</label>
@@ -35,6 +35,18 @@
     <div class="col-md-4">
         <input name="name" ng-model="categorie.categorie_label_fr" type= "text" class= "form-control" placeholder="label fr" required/>
         <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">label fr Required</span>
+    </div>
+    <br/><br/><br/><br/>
+    <label class= "col-md-2"> Description EN</label>
+    <div class="col-md-4">
+        <textarea name="name" ng-model="categorie.categorie_description" type= "text" class= "form-control" placeholder="description en" required></textarea>
+        <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">description en Required</span>
+    </div>
+    <br/><br/><br/><br/>
+        <label class= "col-md-2"> Description FR</label>
+    <div class="col-md-4">
+        <textarea name="name" ng-model="categorie.categorie_description_fr" type= "text" class= "form-control" placeholder="description fr" required></textarea>
+        <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">description fr Required</span>
     </div>
     <br/><br/><br/><br/>
     <label class= "col-md-2"> Image</label>

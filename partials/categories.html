@@ -10,6 +10,8 @@
         <thead>
         <th>Categorie label EN&nbsp;</th>
         <th>Categorie label FR&nbsp;</th>
+        <th>Categorie description EN&nbsp;</th>
+        <th>Categorie description FR&nbsp;</th>
         <th>Categorie image path&nbsp;</th>
         <th>Actions&nbsp;</th>
         </thead>
@@ -17,6 +19,8 @@
             <tr ng-repeat="data in categories">
                 <td>{{data.categorie_label}}</td>
                 <td>{{data.categorie_label_fr}}</td>
+                <td>{{data.categorie_description.slice(0,50)}}...</td>
+                <td>{{data.categorie_description_fr.slice(0,50)}}...</td>
                 <td>{{data.categorie_image_path}}</td>
                 <td><a href="#/edit-categorie/{{data.categorie_id}}" class="btn">&nbsp;<i class="glyphicon glyphicon-edit"></i>&nbsp; Edit</a></td>
             </tr>

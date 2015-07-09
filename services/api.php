@@ -61,7 +61,7 @@
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
 			}
-			$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_label_fr, c.categorie_image_path FROM reading_challenge_categorie c";
+			$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_label_fr, c.categorie_description, c.categorie_description_fr, c.categorie_image_path FROM reading_challenge_categorie c";
 			$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 
 			if($r->num_rows > 0){
@@ -81,7 +81,7 @@
 			}
 			$id = (int)$this->_request['id'];
 			if($id > 0){	
-				$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_label_fr, c.categorie_image_path FROM reading_challenge_categorie c where c.categorie_id=$id";
+				$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_label_fr, c.categorie_description, c.categorie_description_fr, c.categorie_image_path FROM reading_challenge_categorie c where c.categorie_id=$id";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				if($r->num_rows > 0) {
 					$result = $r->fetch_assoc();	
@@ -97,7 +97,7 @@
 			}
 
 			$categorie = json_decode(file_get_contents("php://input"),true);
-			$column_names = array('categorie_label', 'categorie_label_fr', 'categorie_image_path');
+			$column_names = array('categorie_label', 'categorie_label_fr', 'categorie_description', 'categorie_description_fr', 'categorie_image_path');
 			$keys = array_keys($categorie);
 			$columns = '';
 			$values = '';
@@ -125,7 +125,7 @@
 			}
 			$categorie = json_decode(file_get_contents("php://input"),true);
 			$id = (int)$categorie['id'];
-			$column_names = array('categorie_label', 'categorie_label_fr');
+			$column_names = array('categorie_label', 'categorie_label_fr', 'categorie_description', 'categorie_description_fr');
 			$keys = array_keys($categorie['categorie']);
 			$columns = '';
 			$values = '';
