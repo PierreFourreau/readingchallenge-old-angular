@@ -25,10 +25,16 @@
 <form role="form" name="myForm" class="form-horizontal">
 <div class="row">
 <div class= "form-group" ng-class="{error: myForm.name.$invalid}">
-    <label class= "col-md-2"> Label</label>
+    <label class= "col-md-2"> Label EN</label>
     <div class="col-md-4">
-        <input name="name" ng-model="categorie.categorie_label" type= "text" class= "form-control" placeholder="label" required/>
-        <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">label Required</span>
+        <input name="name" ng-model="categorie.categorie_label" type= "text" class= "form-control" placeholder="label en" required/>
+        <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">label en Required</span>
+    </div>
+    <br/><br/><br/><br/>
+        <label class= "col-md-2"> Label FR</label>
+    <div class="col-md-4">
+        <input name="name" ng-model="categorie.categorie_label_fr" type= "text" class= "form-control" placeholder="label fr" required/>
+        <span ng-show="myForm.name.$dirty && myForm.name.$invalid" class="help-inline">label fr Required</span>
     </div>
     <br/><br/><br/><br/>
     <label class= "col-md-2"> Image</label>
