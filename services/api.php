@@ -19,6 +19,7 @@
 		*/
 		private function dbConnect(){
 			$this->mysqli = new mysqli(DB_SERVER, DB_USER, DB_PASSWORD, DB);
+			$this->mysqli->set_charset("utf8");
 		}
 		
 		/*
@@ -138,7 +139,7 @@
 				$columns = $columns.$desired_key."='".$$desired_key."',";
 			}
 			$query = "UPDATE reading_challenge_categorie SET ".trim($columns,',')." WHERE categorie_id=$id";
-			if(!empty($categorie)){
+			if(!empty($categorie)){	
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
 				$success = array('status' => "Success", "msg" => "Categorie ".$id." Updated Successfully.", "data" => $categorie);
 				$this->response($this->json($success),200);
