@@ -9,7 +9,7 @@ header("location: home.php");
 <html>
     <head>
         <title>Reading challenge login</title>
-        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <script src="js/login.js"></script>
