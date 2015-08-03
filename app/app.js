@@ -1,15 +1,15 @@
 var app = angular.module('myApp', ['ngRoute']);
 app.factory("services", ['$http', function($http) {
   var serviceBase = 'services/'
-    var obj = {};
-    obj.getCategories = function(){
-        return $http.get(serviceBase + 'categories');
-    }
-    obj.getCategorie = function(categorieID){
-        return $http.get(serviceBase + 'categorie?id=' + categorieID);
-    }
+  var obj = {};
+  obj.getCategories = function(){
+      return $http.get(serviceBase + 'categories');
+  }
+  obj.getCategorie = function(categorieID){
+      return $http.get(serviceBase + 'categorie?id=' + categorieID);
+  }
 
-    obj.insertCategorie = function (categorie) {
+  obj.insertCategorie = function (categorie) {
     return $http.post(serviceBase + 'insertCategorie', categorie).then(function (results) {
         return results;
     });
@@ -26,6 +26,18 @@ app.factory("services", ['$http', function($http) {
 	        return status.data;
 	    });
 	};
+
+  obj.insertSuggestions = function (id, categorie) {
+      return $http.post(serviceBase + 'insertSuggestions', {id:id, categorie:categorie}).then(function (status) {
+          return status.data;
+      });
+  };
+
+  obj.deleteSuggestions = function (id) {
+      return $http.delete(serviceBase + 'deleteSuggestions?categorie_id=' + id).then(function (status) {
+          return status.data;
+      });
+  };
 
     return obj;   
 }]);
@@ -61,7 +73,9 @@ app.controller('editCtrl', function ($scope, $rootScope, $location, $routeParams
             services.insertCategorie(categorie);
         }
         else {
-            services.updateCategorie(categorieID, categorie);
+          services.updateCategorie(categorieID, categorie);
+          services.deleteSuggestions(categorieID);
+          services.insertSuggestions(categorieID, categorie);
         }
     };
 });

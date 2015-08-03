@@ -161,6 +161,50 @@
 				$this->response('',204);	// If no records "No Content" status
 		}
 		
+		private function insertSuggestions(){
+			if($this->get_request_method() != "POST"){
+				$this->response('',406);
+			}
+
+			$categorie = json_decode(file_get_contents("php://input"),true);
+			error_log("AAAAA".print_r($categorie));
+			$id = (int)$categorie['id'];
+			error_log("aa".$id);
+error_log("BBBB".$categorie['categorie']['suggestions']);
+			$suggestions = explode(";", $categorie['categorie']['suggestions']);
+			error_log("AAAAA".$suggestions);
+			$max = count($suggestions);
+			for($i=0; $i<$max; $i++) {
+				error_log("boucle:".$suggestions[i]);
+				$label = explode(":", $suggestions[$i])[0];
+				$label_fr = explode(":", $suggestions[$i])[1];
+
+				$query = "INSERT INTO reading_challenge_suggestion(suggestion_label, suggestion_label_fr, categorie_id) VALUES('".$label."', '".$label_fr."', $id)";
+				error_log($query);
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			}
+
+			
+			$success = array('status' => "Success", "msg" => "Suggestion Created Successfully.");
+			$this->response($this->json($success),200);
+	
+
+		}
+
+		private function deleteSuggestions(){
+			if($this->get_request_method() != "DELETE"){
+				$this->response('',406);
+			}
+			$id = (int)$this->_request['categorie_id'];
+			if($id > 0){				
+				$query="DELETE FROM reading_challenge_suggestion WHERE categorie_id = $id";
+				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				$success = array('status' => "Success", "msg" => "Successfully deleted one record.");
+				$this->response($this->json($success),200);
+			}else
+				$this->response('',204);	// If no records "No Content" status
+		}
+
 		/*
 		 *	Encode array into JSON
 		*/
