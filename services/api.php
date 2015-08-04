@@ -82,11 +82,23 @@
 			}
 			$id = (int)$this->_request['id'];
 			if($id > 0){	
-				$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_label_fr, c.categorie_description, c.categorie_description_fr, c.categorie_image_path FROM reading_challenge_categorie c where c.categorie_id=$id";
+				$query="SELECT distinct c.categorie_id, c.categorie_label, c.categorie_label_fr, c.categorie_description, c.categorie_description_fr, c.categorie_image_path, COALESCE(s.suggestion_label, '' ) as suggestion_label, COALESCE(s.suggestion_label_fr,'') AS suggestion_label_fr FROM reading_challenge_categorie c left outer join reading_challenge_suggestion s on s.categorie_id=c.categorie_id where c.categorie_id=$id";
 				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				
 				if($r->num_rows > 0) {
-					$result = $r->fetch_assoc();	
-					$this->response($this->json($result), 200); // send user details
+					$result = array();
+					while($row = $r->fetch_assoc()){
+						$result[] = $row;
+					}
+					$result[0]['suggestions'] = "";
+					for($i=0; $i<count($result); $i++) {
+						$result[0]['suggestions'] = $result[0]['suggestions'] . $result[$i]['suggestion_label'] . ":" . $result[$i]['suggestion_label_fr'] . ";";
+					}
+					$result[0]['suggestions'] = substr_replace($result[0]['suggestions'] ,"",-1);
+					unset($result[0]['suggestion_label']);
+					unset($result[0]['suggestion_label_fr']);
+					//$result = $r->fetch_assoc();
+					$this->response($this->json($result[0]), 200); // send user details
 				}
 			}
 			$this->response('',204);	// If no records "No Content" status
@@ -165,30 +177,32 @@
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
-
 			$categorie = json_decode(file_get_contents("php://input"),true);
-			error_log("AAAAA".print_r($categorie));
 			$id = (int)$categorie['id'];
-			error_log("aa".$id);
-error_log("BBBB".$categorie['categorie']['suggestions']);
+
 			$suggestions = explode(";", $categorie['categorie']['suggestions']);
-			error_log("AAAAA".$suggestions);
-			$max = count($suggestions);
-			for($i=0; $i<$max; $i++) {
-				error_log("boucle:".$suggestions[i]);
-				$label = explode(":", $suggestions[$i])[0];
-				$label_fr = explode(":", $suggestions[$i])[1];
-
-				$query = "INSERT INTO reading_challenge_suggestion(suggestion_label, suggestion_label_fr, categorie_id) VALUES('".$label."', '".$label_fr."', $id)";
-				error_log($query);
-				$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+			if($suggestions[0] != "" && $suggestions[0] != ":") {
+				$max = count($suggestions);
+				for($i=0; $i<$max; $i++) {
+					if(isset(explode(":", $suggestions[$i])[0])) {
+						$label = explode(":", $suggestions[$i])[0];
+					}
+					else {
+						$label = "";
+					}
+					if(isset(explode(":", $suggestions[$i])[1])) {
+						$label_fr = explode(":", $suggestions[$i])[1];
+					}
+					else {
+						$label_fr = "";
+					}
+					$query = "INSERT INTO reading_challenge_suggestion(suggestion_label, suggestion_label_fr, categorie_id) VALUES('".$label."', '".$label_fr."', $id)";
+					error_log($query);
+					$r = $this->mysqli->query($query) or die($this->mysqli->error.__LINE__);
+				}
+				$success = array('status' => "Success", "msg" => "Suggestion Created Successfully.");
+				$this->response($this->json($success),200);
 			}
-
-			
-			$success = array('status' => "Success", "msg" => "Suggestion Created Successfully.");
-			$this->response($this->json($success),200);
-	
-
 		}
 
 		private function deleteSuggestions(){
